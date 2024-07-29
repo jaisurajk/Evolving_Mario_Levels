@@ -64,16 +64,107 @@ class Individual_Grid(object):
 
     # Mutate a genome into a new genome.  Note that this is a _genome_, not an individual!
     def mutate(self, genome):
-        # STUDENT implement a mutation operator, also consider not mutating this individual
-        # STUDENT also consider weighting the different tile types so it's not uniformly random
-        # STUDENT consider putting more constraints on this to prevent pipes in the air, etc
-
+        if not genome or random.random() > 1.1:
+            return genome
+    
+        modified_genome = copy.deepcopy(genome)
+        width, height = len(genome[0]), len(genome)
         left = 1
         right = width - 1
-        for y in range(height):
-            for x in range(left, right):
-                pass
-        return genome
+    
+        def generate_floor_holes():
+            for col in range(left, 128):
+                modified_genome[15][col] = '-' if random.randint(1, 100) < 10 else 'X'
+    
+        def clean_map():
+            for row in range(height):
+                for col in range(left, right):
+                    if modified_genome[row][col] in {"|", "T", "E"}:
+                        modified_genome[row][col] = "-"
+    
+        def assign_random_tiles():
+            for row in range(height):
+                for col in range(left, right):
+                    if random.randint(1, 100) < 10 and row <= 14:
+                        tile_choice = random.randint(1, 100)
+                        if tile_choice < 10:
+                            modified_genome[row][col] = "o"
+                        elif tile_choice < 25:
+                            modified_genome[row][col] = "M"
+                        elif tile_choice < 40:
+                            modified_genome[row][col] = "?"
+                        elif tile_choice < 45:
+                            modified_genome[row][col] = "B"
+                        elif tile_choice < 60:
+                            modified_genome[row][col] = "X"
+                            if random.randint(1, 100) < 2 and col < right - 1:
+                                modified_genome[row][col + 1] = "X"
+                        elif tile_choice < 63 and row == 14:
+                            modified_genome[row - 2][col] = "T"
+                            modified_genome[row - 1][col] = "|"
+                            modified_genome[row][col] = "X"
+                        else:
+                            modified_genome[row][col] = "-"
+    
+        def fix_misplaced_tiles():
+            for row in range(14):
+                for col in range(left, right):
+                    if modified_genome[row][col] in {"M", "?"} and (modified_genome[row - 1][col] != "-" or modified_genome[row + 1][col] != "-" or modified_genome[row + 1][col - 1] != "-"):
+                        modified_genome[row][col] = "-"
+                    if row > 3 and modified_genome[row][col] != "-" and modified_genome[row - 1][col] != "-" and modified_genome[row - 2][col] != "-":
+                        modified_genome[row - 1][col] = "-"
+                        modified_genome[row - 2][col] = "-"
+                    if row > 3 and modified_genome[row][col] == "|" and modified_genome[row - 1][col] != "T":
+                        modified_genome[row - 1][col] = "T"
+    
+        def remove_invalid_pipes():
+            for row in range(height):
+                for col in range(left, right):
+                    if modified_genome[row][col] == "T" and (modified_genome[row + 1][col] != "|" or modified_genome[row - 1][col] != "-"):
+                        modified_genome[row][col] = "-"
+    
+        def cleanup_special_blocks():
+            for col in range(left, right):
+                if modified_genome[15][col] == "-" and modified_genome[14][col] not in {"-", "X"}:
+                    modified_genome[14][col] = "-"
+                if modified_genome[14][col] in {"M", "?"}:
+                    modified_genome[14][col] = "-"
+    
+        def introduce_enemies():
+            for row in range(14):
+                for col in range(left, right):
+                    if random.randint(0, 100) < 1 and modified_genome[row + 1][col] not in {"-", "o"} and modified_genome[row][col] == "-":
+                        modified_genome[row][col] = "E"
+    
+        def reset_start_and_end_columns():
+            for row in range(height):
+                if row < 3:
+                    for col in range(left, right):
+                        modified_genome[row][col] = "-"
+                if row <= 6:
+                    modified_genome[row][right] = '-'
+                elif row == 7:
+                    modified_genome[row][right] = 'v'
+                elif row <= 13:
+                    modified_genome[row][right] = 'f'
+                else:
+                    modified_genome[row][right] = 'X'
+    
+        def clean_left_column():
+            for row in range(14):
+                modified_genome[row][0] = "-"
+    
+        generate_floor_holes()
+        clean_map()
+        assign_random_tiles()
+        fix_misplaced_tiles()
+        remove_invalid_pipes()
+        cleanup_special_blocks()
+        introduce_enemies()
+        reset_start_and_end_columns()
+        clean_left_column()
+    
+        return modified_genome
 
     # Create zero or more children from self and other
     def generate_children(self, other):
