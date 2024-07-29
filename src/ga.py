@@ -438,10 +438,24 @@ class Individual_DE(object):
 Individual = Individual_Grid
 
 
-def generate_successors(population):
-    results = []
+def generate_successors(current_population):
     # STUDENT Design and implement this
     # Hint: Call generate_children() on some individuals and fill up results.
+    ranked_population = sorted(current_population, key=lambda indiv: indiv.fitness(), reverse=True)
+
+    parent_cutoff = max(1, len(ranked_population) // 20)
+    parent_pool = ranked_population[:parent_cutoff]
+
+    results = []
+    for p1 in parent_pool:
+        for p2 in parent_pool:
+            if p1 != p2:
+                results.extend(p1.generate_children(p2))
+
+    elite_count = max(1, len(parent_pool) // 10)
+    for k in range(elite_count):
+        results.append(parent_pool[k])
+
     return results
 
 
