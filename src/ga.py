@@ -177,11 +177,12 @@ class Individual_Grid(object):
         left = 1
         right = width - 1
         for y in range(height):
-            for x in range(left, right):
-                if random.randint(1, 100) < 30:
-                    new_genome[y][x] = self.genome[y][x]
-                else:
-                    new_genome[y][x] = other.genome[y][x]
+            if y != 2:
+                for x in range(left, right):
+                    if random.randint(1, 100) < 30:
+                        new_genome[y][x] = self.genome[y][x]
+                    else:
+                        new_genome[y][x] = other.genome[y][x]
         new_genome = self.mutate(new_genome)
         return (Individual_Grid(new_genome),)
 
