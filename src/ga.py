@@ -438,27 +438,6 @@ class Individual_DE(object):
 
 Individual = Individual_Grid
 
-
-# def generate_successors(current_population):
-#     # STUDENT Design and implement this
-#     # Hint: Call generate_children() on some individuals and fill up results.
-#     ranked_population = sorted(current_population, key=lambda indiv: indiv.fitness(), reverse=True)
-
-#     parent_cutoff = max(1, len(ranked_population) // 20)
-#     parent_pool = ranked_population[:parent_cutoff]
-
-#     results = []
-#     for p1 in parent_pool:
-#         for p2 in parent_pool:
-#             if p1 != p2:
-#                 results.extend(p1.generate_children(p2))
-
-#     elite_count = max(1, len(parent_pool) // 10)
-#     for k in range(elite_count):
-#         results.append(parent_pool[k])
-
-#     return results
-
 def generate_successors(current_population):
     # Sort the population by fitness
     ranked_population = sorted(current_population, key=lambda indiv: indiv.fitness(), reverse=True)
@@ -468,16 +447,10 @@ def generate_successors(current_population):
     parent_pool = ranked_population[:parent_cutoff]
 
     results = []
-
-    # Use a set to avoid duplicate pairs
-    seen_pairs = set()
     
     for p1 in parent_pool:
         for p2 in parent_pool:
             if p1 != p2:
-                # pair = (id(p1), id(p2))
-                # if pair not in seen_pairs and (id(p2), id(p1)) not in seen_pairs:
-                #     seen_pairs.add(pair)
                 results.extend(p1.generate_children(p2))
                     
     # Add some of the best individuals to the next generation to preserve good traits
