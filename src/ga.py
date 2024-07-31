@@ -77,7 +77,14 @@ class Individual_Grid(object):
 
         def generate_floor_holes():
             for col in range(left, 128):
-                modified_genome[15][col] = '-' if random.randint(1, 100) < 10 else 'X'
+                if random.randint(1, 100) < 10:
+                    modified_genome[15][col] = '-'
+                    if col != 0:
+                        for row in range(14):
+                            modified_genome[row][col-1] = '-'
+                else:
+                    modified_genome[15][col] = 'X'
+                # modified_genome[15][col] = '-' if random.randint(1, 100) < 10 else 'X'
 
         def clean_map():
             for row in range(height):
