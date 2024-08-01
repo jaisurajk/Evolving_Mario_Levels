@@ -67,7 +67,7 @@ class Individual_Grid(object):
         # STUDENT implement a mutation operator, also consider not mutating this individual
         # STUDENT also consider weighting the different tile types so it's not uniformly random
         # STUDENT consider putting more constraints on this to prevent pipes in the air, etc
-        if not genome or random.random() > 1.1:
+        if not genome or random.random() > 0.1:
             return genome
 
         modified_genome = copy.deepcopy(genome)
@@ -81,7 +81,7 @@ class Individual_Grid(object):
                     modified_genome[15][col] = '-'
                     if col != 0:
                         for row in range(14):
-                            modified_genome[row][col-1] = '-'
+                            modified_genome[row][col-1] = 'X' if row == 11 else '-'
                 else:
                     modified_genome[15][col] = 'X'
                 # modified_genome[15][col] = '-' if random.randint(1, 100) < 10 else 'X'
