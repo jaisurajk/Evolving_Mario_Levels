@@ -270,6 +270,14 @@ class Individual_DE(object):
         )
         penalties = 0
         # STUDENT For example, too many stairs are unaesthetic.  Let's penalize that
+        if len(list(filter(lambda de: de[1] == "7_pipe", self.genome))) > 4:
+            penalties -= 2 
+        if len(list(filter(lambda de: de[1] == "3_coin", self.genome))) > 7:
+            penalties += 2
+        if len(list(filter(lambda de: de[1] == "2_enemy", self.genome))) > 5:
+            penalties -= 3 
+        if len(list(filter(lambda de: de[1] == "1_platform", self.genome))) > 6:
+            penalties -= 1 
         if len(list(filter(lambda de: de[1] == "6_stairs", self.genome))) > 5:
             penalties -= 2
         # STUDENT If you go for the FI-2POP extra credit, you can put constraint calculation in here too and cache it in a new entry in __slots__.
