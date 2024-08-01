@@ -2,8 +2,6 @@
 
 ## Members: Jaisuraj Kaleeswaran and Jimmy Luu
 
-### We did not change the metrics.py at all and no we will not be participating in the competition.
-
 ### Modified mutate() function in the Individual Grid class
 
 - We created several functions in the mutate() function, each of which does a specific task.
