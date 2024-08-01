@@ -67,7 +67,7 @@ class Individual_Grid(object):
         # STUDENT implement a mutation operator, also consider not mutating this individual
         # STUDENT also consider weighting the different tile types so it's not uniformly random
         # STUDENT consider putting more constraints on this to prevent pipes in the air, etc
-        if not genome or random.random() > 0.1:
+        if not genome or random.random() > 0.98:
             return genome
 
         modified_genome = copy.deepcopy(genome)
@@ -276,8 +276,6 @@ class Individual_DE(object):
             penalties += 2
         if len(list(filter(lambda de: de[1] == "2_enemy", self.genome))) > 5:
             penalties -= 3 
-        if len(list(filter(lambda de: de[1] == "1_platform", self.genome))) > 6:
-            penalties -= 1 
         if len(list(filter(lambda de: de[1] == "6_stairs", self.genome))) > 5:
             penalties -= 2
         # STUDENT If you go for the FI-2POP extra credit, you can put constraint calculation in here too and cache it in a new entry in __slots__.
