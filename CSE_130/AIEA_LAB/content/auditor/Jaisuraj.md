@@ -1,11 +1,11 @@
 +++
 bio = ""
-date = "2025-04-02"
-id = "jaisuraj"
+date = "2025-04-03"
+id = "Jaisuraj"
 interests = ["write", "your", "interests"]
 name = "Jaisuraj Kaleeswaran"
 portrait = "/portraits/your_name.jpg"
-short_bio = ""
+short_bio = "CS student"
 short_name = "jaisuraj"
 title = ""
 
@@ -27,12 +27,12 @@ title = ""
 [[social]]
     icon = "github"
     icon_pack = "fa"
-    link = ""
+    link = "https://github.com/jaisurajk"
 
 [[education]]
-    course = ""
+    course = "Computer Science"
     institution = "UC Santa Cruz"
-    year = 2026
+    year = 2025
     
 [[organizations]]
     name = "UC Santa Cruz"
