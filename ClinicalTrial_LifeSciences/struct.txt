@@ -1,0 +1,16 @@
+clinical-trial-dashboard/
+├── backend/
+│   ├── src/main/java/com/trialvault/
+│   ├── controller/
+│   ├── service/
+│   ├── model/
+│   ├── repository/
+│   └── security/
+│
+├── frontend/
+│   ├── src/components/
+│   ├── src/pages/
+│   ├── src/api/
+│   └── src/App.tsx
+│
+└── docker-compose.yml
